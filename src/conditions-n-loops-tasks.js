@@ -316,48 +316,22 @@ function isContainNumber(num, digit) {
  *  [1, 2, 3, 4, 5] => -1   => no balance element
  */
 function getBalanceIndex(arr) {
-  if (arr.length <= 2) {
-    return -1;
-  }
-  let sumLeft = 0;
-  let sumRight = 0;
-  let bool = false;
-  if (arr.length % 2 === 0) {
-    bool = true;
-  }
-  if (bool === false) {
-    for (let i = 0; i < arr.length / 2 - 1; i += 1) {
-      sumLeft += arr[i];
+  let count = -1;
+  for (let i = 0; i < arr.length; i += 1) {
+    let sumLeft = 0;
+    let sumRight = 0;
+    for (let j = 0; j < i; j += 1) {
+      sumLeft += arr[j];
     }
-    for (let j = arr.length - 1; j >= arr.length / 2; j -= 1) {
-      sumRight += arr[j];
+    for (let n = arr.length - 1; n > i; n -= 1) {
+      sumRight += arr[n];
     }
     if (sumLeft === sumRight) {
-      return arr.length / 2 - 0.5;
+      count = i;
+      break;
     }
-    return -1;
   }
-  for (let i = 0; i <= arr.length / 2 - 1; i += 1) {
-    sumLeft += arr[i];
-  }
-  for (let j = arr.length - 1; j >= arr.length / 2 + 1; j -= 1) {
-    sumRight += arr[j];
-  }
-  if (sumLeft === sumRight) {
-    return arr.length / 2;
-  }
-  sumLeft = 0;
-  for (let j = 0; j < arr.length / 2 - 2; j += 1) {
-    sumLeft += arr[j];
-  }
-  sumRight = 0;
-  for (let i = arr.length - 1; i >= arr.length / 2; i -= 1) {
-    sumRight += arr[i];
-  }
-  if (sumLeft === sumRight) {
-    return arr.length / 2 - 1;
-  }
-  return -1;
+  return count;
 }
 
 /**
@@ -381,10 +355,37 @@ function getBalanceIndex(arr) {
  *          [10, 9,  8,  7]
  *        ]
  */
-function getSpiralMatrix(/* size */) {
-  throw new Error('Not implemented');
+function getSpiralMatrix(size) {
+  const arr = new Array(size);
+  for (let i = 0; i < size; i += 1) {
+    arr[i] = new Array(size);
+  }
+  for (let i = 0; i < size; i += 1) {
+    for (let j = 0; j < size; j += 1) {
+      arr[i][j] = 0;
+    }
+  }
+  let count = 0;
+  for (let i = 0; i < Math.ceil(size / 2); i += 1) {
+    for (let j = i === 0 ? i : i - 1; j < size - i; j += 1) {
+      count += 1;
+      arr[i][j] = count;
+    }
+    for (let n = i + 1; n < size - i; n += 1) {
+      count += 1;
+      arr[n][size - 1 - i] = count;
+    }
+    for (let x = size - 2 - i; x >= i; x -= 1) {
+      count += 1;
+      arr[size - 1 - i][x] = count;
+    }
+    for (let y = size - 2 - i; y > i + 1; y -= 1) {
+      count += 1;
+      arr[y][i] = count;
+    }
+  }
+  return arr;
 }
-
 /**
  * Rotates a matrix by 90 degrees clockwise in place.
  * Take into account that the matrix size can be very large. Consider how you can optimize your solution.
@@ -400,8 +401,22 @@ function getSpiralMatrix(/* size */) {
  *    [7, 8, 9]         [9, 6, 3]
  *  ]                 ]
  */
-function rotateMatrix(/* matrix */) {
-  throw new Error('Not implemented');
+function rotateMatrix(matrix) {
+  const arr = [...matrix];
+  const array = new Array(matrix.length);
+  for (let i = 0; i < matrix.length; i += 1) {
+    array[i] = new Array(matrix.length);
+  }
+  for (let i = 0; i < matrix.length; i += 1) {
+    for (let j = 0; j < matrix[i].length; j += 1) {
+      array[i][j] = matrix[i][j];
+    }
+  }
+  for (let i = 0; i < array.length; i += 1) {
+    for (let n = 0; n < arr.length; n += 1) {
+      arr[n][arr.length - 1 - i] = array[i][n];
+    }
+  }
 }
 
 /**
