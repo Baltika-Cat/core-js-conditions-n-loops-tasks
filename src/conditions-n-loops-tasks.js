@@ -480,15 +480,20 @@ function sortByAsc(arr) {
  */
 function shuffleChar(str, iterations) {
   let string = str;
-  let iter = iterations;
-  while (iter > 0) {
-    let strHelp = '';
-    for (let i = 1; i < string.length; i += 2) {
-      strHelp += `${string[i]}`;
-      string = `${string.substring(0, i)}№${string.substring(i + 1)}`;
+  for (let j = iterations; j > 0; j -= 1) {
+    let str1 = '';
+    let str2 = '';
+    for (let i = 0; i < string.length; i += 1) {
+      if (i % 2 === 0) {
+        str1 += string[i];
+      } else {
+        str2 += string[i];
+      }
     }
-    string = `${string.replaceAll('№', '') + strHelp}`;
-    iter -= 1;
+    string = str1 + str2;
+    if (string === str) {
+      return shuffleChar(str, iterations % (iterations - j + 1));
+    }
   }
   return string;
 }
